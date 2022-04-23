@@ -3,9 +3,6 @@
 
 <head>
 	<meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport" />
-	<title>
-		UI Components
-	</title>
 	<link href="lib/tau/wearable/theme/default/tau.css" rel="stylesheet" />
 	<link href="lib/tau/wearable/theme/default/tau.circle.css" rel="stylesheet" />
 	<link href="css/style.css" rel="stylesheet" />
@@ -13,26 +10,44 @@
 	<script src="js/circle-helper.js"></script>
 	<script src="js/index.js"></script>
 	<script src="lib/tau/wearable/js/tau.js"></script>
-	<script>
-		const version = "nvi";
-		const bversion = {};
-	</script>
 </head>
 
 <body>
 	<div class="ui-page" id="main" data-go-to-top-button="true">
 		<header class="ui-header">
-			<h2 class="ui-title">
-				UI Components
-			</h2>
+			<h1 class="ui-title" id="titled">Biblia Sagrada</h1>
 		</header>
 		<div class="ui-content">
 			<ul class="ui-listview" id="books">
 			</ul>
 		</div>
 	</div>
+	<script>
+		var listHelper;
+		const pageElement = document.querySelector("#main");
+		const books = Object.keys(index.books)
+		
+		pageElement.addEventListener("pagebeforeshow", function () {
+			const listElement = document.querySelector("#books");
+			const options = {
+				dataLength: books.length,
+				bufferSize: 10
+			};
+			
+			listHelper = tau.widget.Listview(listElement, options);
+			listHelper.setListItemUpdater((elem, idx) => {
+				const abbrev = books[idx];
+				console.log(abbrev, index)
+				elem.innerHTML = `<a href="pages/chapters.html?b=${abbrev}" target="_self">${index.books[abbrev]}</a>`;
+			})
+		})
+
+		pageElement.addEventListener("pagebeforehide", function () {
+			listHelper.destroy();
+		});
+	</script>
+
 	<script src="js/app.js"></script>
 	<script src="js/lowBatteryCheck.js"></script>
 </body>
-
 </html>

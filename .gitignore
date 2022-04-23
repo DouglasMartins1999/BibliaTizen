@@ -1,2 +1,6 @@
 .settings
 .DS_Store
+.manifest.tmp
+author-signature.xml
+signature1.xml
+*.wgt
