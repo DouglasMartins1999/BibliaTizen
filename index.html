@@ -152,29 +152,10 @@
 
 			for(const c in chapters) {
 				const section = document.createElement("section");
-				const header = document.createElement("header");
-				const title = index.books[book] + " " + (+c + 1).toString().padStart(2, "0");
 
-				header.className = "ui-header"
-				header.innerHTML = `<h1 class="ui-title ui-overflow-gradient">${title}</h1>`
-
-				section.appendChild(header);
-
-				for(const b in chapters[c]) {
-					const p = document.createElement("p");
-					const i = document.createElement("b");
-					const t = document.createTextNode(chapters[c][b]);
-
-					i.textContent = (parseInt(b) + 1).toString().padStart(2, "0") + ".";
-					
-					p.appendChild(i);
-					p.appendChild(t);
-
-					section.appendChild(p);
-				}
-
-				if (c === chapter) {
+				if (+c === chapter) {
 					section.className = "ui-section-active";
+					renderChapter(section, c);
 				}
 
 				elmt.appendChild(section);
@@ -182,7 +163,7 @@
 		})
 
 		pageindicator(pages.reader);
-		renderVersionPicker(pages.version, version, value => {
+		renderVersionPicker(pages.version, value => {
 			version = value;
 			tau.changePage("#reader");
 		})

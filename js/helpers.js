@@ -23,13 +23,16 @@ function pageindicator(page) {
 	});
 
 	pageIndicatorHandler = function (e) {
+		const index = e.detail.active;
+		const elemt = sectionChanger.sections[index];
+		renderChapter(elemt, index)
 		pageIndicator.setActive(e.detail.active);
 	};
 
 	content.addEventListener("sectionchange", pageIndicatorHandler, false);
 }
 
-function renderVersionPicker(p, value, callback) {
+function renderVersionPicker(p, callback) {
 	const versions = Object.keys(index.versions);
 	let helper;
 
@@ -48,11 +51,15 @@ function renderVersionPicker(p, value, callback) {
 
 			input.type = "radio";
 			input.name = "version";
-			input.checked = key === value;
+			
+			if(key == version) {
+				input.setAttribute("checked", "checked");
+			}
+
+			console.log(input);
 
 			elem.classList = "li-has-radio";
 			elem.innerHTML = `<label id="radio-text-${idx}">${key.toUpperCase()}${input.outerHTML}</label>`
-			elem.value = key;
 			
 			elem.addEventListener("click", () => callback(key));
 		})
@@ -61,4 +68,29 @@ function renderVersionPicker(p, value, callback) {
 	p.addEventListener("pagehide", function () {
 		helper.destroy();
 	});
+}
+
+const renderChapter = (section, i) => {
+	const chapters = bversion[version][book];
+	const header = document.createElement("header");
+	const title = index.books[book] + " " + (+i + 1).toString().padStart(2, "0");
+
+	header.className = "ui-header"
+	header.innerHTML = `<h1 class="ui-title ui-overflow-gradient">${title}</h1>`
+
+	section.innerHTML = "";
+	section.appendChild(header);
+
+	for(const b in chapters[i]) {
+		const p = document.createElement("p");
+		const n = document.createElement("b");
+		const t = document.createTextNode(chapters[i][b]);
+
+		n.textContent = (parseInt(b) + 1).toString().padStart(2, "0") + ".";
+		
+		p.appendChild(n);
+		p.appendChild(t);
+
+		section.appendChild(p);
+	}
 }
