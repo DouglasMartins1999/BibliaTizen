@@ -74,10 +74,11 @@ function renderVersionPicker(p, callback) {
 const renderChapter = (section, i) => {
 	const chapters = bversion[version][book];
 	const header = document.createElement("header");
-	const title = index.books[book] + " " + (+i + 1).toString().padStart(2, "0");
+	const title = "Capítulo " + (+i + 1).toString().padStart(2, "0");
 
 	header.className = "ui-header"
-	header.innerHTML = `<h1 class="ui-title ui-overflow-gradient">${title}</h1>`
+	header.innerHTML = `<h1 class="ui-title ui-overflow-gradient">${index.books[book]}</h1>`
+	header.innerHTML += `<h3 class="ui-subtitle">${title}</h3>`;
 
 	section.innerHTML = "";
 	section.appendChild(header);
