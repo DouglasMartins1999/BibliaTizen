@@ -61,7 +61,7 @@
 			<h1 class="ui-title ui-overflow-gradient">Versão</h1>
 		</header>
 		<div class="ui-content">
-			<ul class="ui-listview"></ul>
+			<ul class="ui-arc-listview"></ul>
 		</div>
 	</div>
 
@@ -124,11 +124,10 @@
 					throw new Error();
 				}
 				
-				const abbrev = booksKeys[idx];
 				const amount = document.createElement("span");
 
 				amount.className = "ui-li-sub-text";
-				amount.textContent = bversion[version][abbrev][idx].length.toString().padStart(2, "0") + " Versículos"
+				amount.textContent = bversion[version][book][idx].length.toString().padStart(2, "0") + " Versículos"
 
 				elem.classList.add("li-has-multiline");
 				elem.textContent = `Capítulo ${(idx + 1).toString().padStart(2, "0")}`;
@@ -165,7 +164,7 @@
 		pageindicator(pages.reader);
 		renderVersionPicker(pages.version, value => {
 			version = value;
-			tau.changePage("#reader");
+			window.history.back()
 		})
 
 		for(const p in pages) {

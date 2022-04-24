@@ -37,16 +37,16 @@ function renderVersionPicker(p, callback) {
 	let helper;
 
 	p.addEventListener("pagebeforeshow", function () {
-		const list = p.querySelector(".ui-listview");
-		const options = { dataLength: versions.length, bufferSize: 10 };
+		const list = p.querySelector(".ui-arc-listview");
+		list.innerHTML = "";
 
-		helper = tau.widget.Listview(list, options);
+		helper = tau.widget.ArcListview(list);
 		helper.setListItemUpdater((elem, idx) => {
 			if (idx >= versions.length) {
 				throw new Error();
 			}
 
-			const key = versions[idx];
+			const key = versions[idx] || "";
 			const input = document.createElement("input");
 
 			input.type = "radio";
@@ -56,12 +56,13 @@ function renderVersionPicker(p, callback) {
 				input.setAttribute("checked", "checked");
 			}
 
-			console.log(input);
-
 			elem.classList = "li-has-radio";
 			elem.innerHTML = `<label id="radio-text-${idx}">${key.toUpperCase()}${input.outerHTML}</label>`
 			
-			elem.addEventListener("click", () => callback(key));
+			elem.addEventListener("click", event => {
+				event.preventDefault();
+				callback(key)
+			});
 		})
 	})
 
