@@ -9,42 +9,190 @@
 	<link href="css/style.circle.css" rel="stylesheet" />
 	<script src="js/circle-helper.js"></script>
 	<script src="js/index.js"></script>
+	<script src="js/helpers.js"></script>
 	<script src="lib/tau/wearable/js/tau.js"></script>
+
+	<style>
+		#reader b {
+			font-size: 1.4rem;
+			margin-right: .5rem;
+			opacity: .3;
+		}
+
+		.ui-content section {
+			overflow: hidden;
+			overflow-y: auto;
+			padding: 0 2rem;
+		}
+	</style>
 </head>
 
 <body>
-	<div class="ui-page" id="main" data-go-to-top-button="true">
+	<div class="ui-page" id="main">
 		<header class="ui-header">
-			<h1 class="ui-title" id="titled">Biblia Sagrada</h1>
+			<h1 class="ui-title">Biblia Sagrada</h1>
 		</header>
 		<div class="ui-content">
-			<ul class="ui-listview" id="books">
-			</ul>
+			<ul class="ui-listview"></ul>
 		</div>
 	</div>
+
+	<div class="ui-page" id="chapters">
+		<header class="ui-header">
+			<h1 class="ui-title ui-overflow-gradient"></h1>
+		</header>
+		<div class="ui-content">
+			<ul class="ui-listview"></ul>
+		</div>
+	</div>
+
+	<div class="ui-page" id="reader" data-go-to-top-button="true" data-enable-page-scroll="false">
+		<div class="ui-page-indicator" data-layout="circular"></div>
+		<div class="ui-content ui-content-padding">
+			<div></div>
+		</div>
+		<footer class="ui-footer ui-bottom-button ui-fixed">
+			<button class="ui-btn"></button>
+		</footer>
+	</div>
+
+	<div class="ui-page" id="version">
+		<header class="ui-header">
+			<h1 class="ui-title ui-overflow-gradient">Versão</h1>
+		</header>
+		<div class="ui-content">
+			<ul class="ui-listview"></ul>
+		</div>
+	</div>
+
+	<script src="../versions/nvi.js"></script>
+    <script src="../versions/acf.js"></script>
+    <script src="../versions/aa.js"></script>
+
 	<script>
-		var listHelper;
-		const pageElement = document.querySelector("#main");
-		const books = Object.keys(index.books)
+		var book = "jo";
+		var chapter = 1;
+		var version = "nvi";
+
+		const booksKeys = Object.keys(index.books)
+		const pages = {
+			main: document.querySelector("#main"),
+			chapters: document.querySelector("#chapters"),
+			reader: document.querySelector("#reader"),
+			version: document.querySelector("#version")
+		}
 		
-		pageElement.addEventListener("pagebeforeshow", function () {
-			const listElement = document.querySelector("#books");
-			const options = {
-				dataLength: books.length,
-				bufferSize: 10
-			};
+		pages.main.addEventListener("pagebeforeshow", function (event) {
+			const listElement = document.querySelector("#main .ui-listview");
+			const options = { dataLength: booksKeys.length, bufferSize: 10 };
 			
-			listHelper = tau.widget.Listview(listElement, options);
-			listHelper.setListItemUpdater((elem, idx) => {
-				const abbrev = books[idx];
-				console.log(abbrev, index)
-				elem.innerHTML = `<a href="pages/chapters.html?b=${abbrev}" target="_self">${index.books[abbrev]}</a>`;
+			tau.util.rotaryScrolling.enable(event.target.firstElementChild);
+
+			pages.main.listview = tau.widget.Listview(listElement, options);
+			pages.main.listview.setListItemUpdater((elem, idx) => {
+				if (idx >= booksKeys.length) {
+					throw new Error();
+				}
+
+				const abbrev = booksKeys[idx];
+				const amount = document.createElement("span");
+
+				amount.className = "ui-li-sub-text";
+				amount.textContent = bversion[version][abbrev].length.toString().padStart(2, "0") + " Capítulos"
+
+				elem.classList.add("li-has-multiline");
+				elem.textContent = index.books[abbrev];
+				elem.appendChild(amount);
+				elem.addEventListener("click", function(evnt) {
+					book = abbrev;
+					tau.changePage("#chapters");
+				})
+			})
+		})
+		
+		pages.chapters.addEventListener("pagebeforeshow", function(event) {
+			const titulo = document.querySelector("#chapters .ui-title");
+			const listview = document.querySelector("#chapters .ui-listview");
+			const options = { dataLength: bversion[version][book].length, bufferSize: 10 };
+			
+			titulo.textContent = index.books[book];
+			tau.util.rotaryScrolling.enable(event.target.firstElementChild);
+
+			pages.chapters.listview = tau.widget.Listview(listview, options);
+			pages.chapters.listview.setListItemUpdater((elem, idx) => {
+				if (idx >= bversion[version][book].length) {
+					throw new Error();
+				}
+				
+				const abbrev = booksKeys[idx];
+				const amount = document.createElement("span");
+
+				amount.className = "ui-li-sub-text";
+				amount.textContent = bversion[version][abbrev][idx].length.toString().padStart(2, "0") + " Versículos"
+
+				elem.classList.add("li-has-multiline");
+				elem.textContent = `Capítulo ${(idx + 1).toString().padStart(2, "0")}`;
+				elem.appendChild(amount);
+				elem.addEventListener("click", function(evnt) {
+					chapter = idx;
+					tau.changePage("#reader");
+				})
 			})
 		})
 
-		pageElement.addEventListener("pagebeforehide", function () {
-			listHelper.destroy();
-		});
+		pages.reader.addEventListener("pagebeforeshow", function() {
+			const elmt = document.querySelector("#reader .ui-content > div");
+			const btn = document.querySelector("#reader .ui-btn");
+			const chapters = bversion[version][book];
+
+			btn.textContent = version.toUpperCase();
+			btn.onclick = () => tau.changePage("#version")
+
+			elmt.innerHTML = "";
+
+			for(const c in chapters) {
+				const section = document.createElement("section");
+				const header = document.createElement("header");
+				const title = index.books[book] + " " + (+c + 1).toString().padStart(2, "0");
+
+				header.className = "ui-header"
+				header.innerHTML = `<h1 class="ui-title ui-overflow-gradient">${title}</h1>`
+
+				section.appendChild(header);
+
+				for(const b in chapters[c]) {
+					const p = document.createElement("p");
+					const i = document.createElement("b");
+					const t = document.createTextNode(chapters[c][b]);
+
+					i.textContent = (parseInt(b) + 1).toString().padStart(2, "0") + ".";
+					
+					p.appendChild(i);
+					p.appendChild(t);
+
+					section.appendChild(p);
+				}
+
+				if (c === chapter) {
+					section.className = "ui-section-active";
+				}
+
+				elmt.appendChild(section);
+			}
+		})
+
+		pageindicator(pages.reader);
+		renderVersionPicker(pages.version, version, value => {
+			version = value;
+			tau.changePage("#reader");
+		})
+
+		for(const p in pages) {
+			pages[p].addEventListener("pagehide", function() {
+				if(pages[p].listview) pages[p].listview.destroy();
+				tau.util.rotaryScrolling.disable();
+			})
+		}
 	</script>
 
 	<script src="js/app.js"></script>
