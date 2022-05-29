@@ -70,8 +70,8 @@
     <script src="../versions/aa.js"></script>
 
 	<script>
-		var book = "jo";
-		var chapter = 1;
+		var book = "gn";
+		var chapter = 0;
 		var version = "nvi";
 
 		const booksKeys = Object.keys(index.books)
@@ -105,9 +105,14 @@
 				elem.appendChild(amount);
 				elem.addEventListener("click", function(evnt) {
 					book = abbrev;
+					chapter = 0;
 					tau.changePage("#chapters");
 				})
-			})
+			});
+
+			if (book) {
+				pages.main.listview.scrollToPosition(booksKeys.indexOf(book))
+			}
 		})
 		
 		pages.chapters.addEventListener("pagebeforeshow", function(event) {
@@ -137,6 +142,10 @@
 					tau.changePage("#reader");
 				})
 			})
+
+			if (chapter) {
+				pages.chapters.listview.scrollToPosition(chapter);
+			}
 		})
 
 		pages.reader.addEventListener("pagebeforeshow", function() {
