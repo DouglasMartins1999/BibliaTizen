@@ -19,11 +19,11 @@ Aplicativo da bíblia sagrada em Português, desenvolvido para o sistema wearabl
 
 
 ### Screenshots
-<img src="https://github.com/DouglasMartins1999/BibliaTizen/blob/main/img/photo_2022-04-24_13-43-11.jpg?raw=true" style="zoom:50%;" />
-<img src="https://github.com/DouglasMartins1999/BibliaTizen/blob/main/img/photo_2022-04-24_13-43-14.jpg?raw=true" style="zoom:50%;" />
-<img src="https://github.com/DouglasMartins1999/BibliaTizen/blob/main/img/photo_2022-04-24_13-43-16.jpg?raw=true" style="zoom:50%;" />
-<img src="https://github.com/DouglasMartins1999/BibliaTizen/blob/main/img/photo_2022-04-24_13-43-19.jpg?raw=true" style="zoom:50%;" />
-<img src="https://github.com/DouglasMartins1999/BibliaTizen/blob/main/img/photo_2022-04-24_13-43-21.jpg?raw=true" style="zoom:50%;" />
+<img src="https://github.com/DouglasMartins1999/BibliaTizen/blob/main/img/photo_2022-04-24_13-43-11.jpg?raw=true" style="max-width:160px" />
+<img src="https://github.com/DouglasMartins1999/BibliaTizen/blob/main/img/photo_2022-04-24_13-43-14.jpg?raw=true" style="max-width:160px" />
+<img src="https://github.com/DouglasMartins1999/BibliaTizen/blob/main/img/photo_2022-04-24_13-43-16.jpg?raw=true" style="max-width:160px" />
+<img src="https://github.com/DouglasMartins1999/BibliaTizen/blob/main/img/photo_2022-04-24_13-43-19.jpg?raw=true" style="max-width:160px" />
+<img src="https://github.com/DouglasMartins1999/BibliaTizen/blob/main/img/photo_2022-04-24_13-43-21.jpg?raw=true" style="max-width:160px" />
 
 
 
