@@ -30,7 +30,7 @@ Aplicativo da bíblia sagrada em Português, desenvolvido para o sistema wearabl
 ### Etapas Futuras
 
 - [ ] Refatorar e separar o código da visualização
-- [ ] Incluir um histórico de capítulos visitados
+- [x] Incluir um histórico de capítulos visitados
 - [ ] Adicionar novas versões (NTLH e ARA)
 - [ ] Disponibilizar em Outros Idiomas
 - [ ] Adicionar a Galaxy Store
