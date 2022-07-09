@@ -35,6 +35,9 @@
 		<div class="ui-content">
 			<ul class="ui-listview"></ul>
 		</div>
+		<div class="ui-assist-panel" id="history">
+			<ul class="ui-listview"></ul>
+		</div>
 	</div>
 
 	<div class="ui-page" id="chapters">
@@ -68,6 +71,7 @@
 	<script src="../versions/nvi.js"></script>
     <script src="../versions/acf.js"></script>
     <script src="../versions/aa.js"></script>
+	<script src="js/history.js"></script>
 
 	<script>
 		var book = "gn";
@@ -143,6 +147,7 @@
 				})
 			})
 
+			console.log(chapter);
 			if (chapter) {
 				pages.chapters.listview.scrollToPosition(chapter);
 			}
@@ -156,6 +161,7 @@
 			btn.textContent = version.toUpperCase();
 			btn.onclick = () => tau.changePage("#version")
 
+			addHistoryEntry();
 			elmt.innerHTML = "";
 
 			for(const c in chapters) {
@@ -186,5 +192,6 @@
 
 	<script src="js/app.js"></script>
 	<script src="js/lowBatteryCheck.js"></script>
+	<script src="js/assist.js"></script>
 </body>
 </html>
