@@ -2,8 +2,11 @@ const bversion = {};
 const index = {
     "versions": {
         "nvi": "Nova Versão Internacional",
+        "naa": "Nova Almeida Atualizada",
         "acf": "Almeida Corrigida Fiel",
-        "aa": "Almeida Revisada Imprensa Bíblica"
+        "aa": "Almeida Revisada Imprensa Bíblica",
+        "ntlh": "Nova Tradução na Linguagem de Hoje",
+        "kja": "King James Atualizada"
     },
     "books": {
         "gn": "Gênesis",
